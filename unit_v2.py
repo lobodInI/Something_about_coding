@@ -37,7 +37,8 @@ class Knight(Unit):
         self.weapon_type = choice(weapon_type)
 
     def get_level_up(self):
-        self.power += int(self.power < 10)
+        if self.power < 10:
+            self.power += 1
 
     def __str__(self):
         unit_str = super().__str__()
@@ -49,11 +50,12 @@ class Archer(Unit):
         self.archers_weapon = choice(archers_weapon)
 
     def get_level_up(self):
-        self.agility += int(self.agility < 10)
+        if self.agility < 10:
+            self.agility += 1
 
     def __str__(self):
         unit_str = super().__str__()
-        return f'Class unit: Archer{unit_str}\nselected archer\'s weapon: {self.archers_weapon}'
+        return f'Class unit: Archer\n{unit_str}\nselected archer\'s weapon: {self.archers_weapon}'
 
 class Mage(Unit):
     def __init__(self, name, health=100, power=1, agility=1, intellect=1, type_magic=('water', 'fire', 'air')):
@@ -61,11 +63,12 @@ class Mage(Unit):
         self.type_magic = choice(type_magic)
 
     def get_level_up(self):
-        self.intellect += int(self.intellect < 10)
+        if self.intellect < 10:
+            self.intellect += 1
 
     def __str__(self):
         unit_str = super().__str__()
-        return f'Class unit: Mage{unit_str}\nselected type magic: {self.type_magic}'
+        return f'Class unit: Mage\n{unit_str}\nselected type magic: {self.type_magic}'
 
 frodo = Unit(name='Frodo')
 aragorn = Knight(name='Aragorn')
