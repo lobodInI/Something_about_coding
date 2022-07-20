@@ -21,7 +21,7 @@ def recording_file_config(file_name, something):
         json.dump(something, json_file)
 
 def create_config_file():
-    """функція створення нового файлу конфігурації"""
+    """функція створення нового файлу конфігурації """
     open_file_config(file_name)
     recording_file_config(file_name, something=open_file_config(file_name))
 
