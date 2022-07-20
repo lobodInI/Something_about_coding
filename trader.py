@@ -15,14 +15,15 @@ def open_file_config(file_name):
     return info
 
 
-def recording_newfile_config(file_name, something):
+def recording_file_config(file_name, something):
     """збереження в файл конфігурацій json з заданим ім'ям """
     with open(f'{file_name}.json', 'w') as json_file:
         json.dump(something, json_file)
 
 def create_config_file():
+    """функція створення нового файлу конфігурації"""
     open_file_config(file_name)
-    recording_newfile_config(file_name, something=open_file_config(file_name))
+    recording_file_config(file_name, something=open_file_config(file_name))
 
 def rate():
     '''Повертає поточний курс валютної пари, в нашому випадку UAH до USD'''
@@ -41,7 +42,7 @@ def buy_xxx(xxx):
     if (info['UAH'] - recount) > 0:
         info['UAH'] = round((info['UAH'] - recount), 2)
         info['USD'] = round((info['USD'] + xxx), 2)
-        recording_newfile_config(file_name, info)
+        recording_file_config(file_name, info)
     else:
         return f"UNAVAILABLE, REQUIRED BALANCE UAH {recount}, AVAILABLE {info['UAH']}"
 
@@ -53,7 +54,7 @@ def sell_xxx(xxx):
         recount = xxx * info['exchange_rate']
         info['UAH'] = round((info['UAH'] + recount), 2)
         info['USD'] = round((info['USD'] - xxx), 2)
-        recording_newfile_config(file_name, info)
+        recording_file_config(file_name, info)
     else:
         return f"UNAVAILABLE, REQUIRED BALANCE USD {xxx}, AVAILABLE {info['USD']}"
 
@@ -67,7 +68,7 @@ def buy_all():
         if info['UAH'] < 0:
             info['UAH'] = round((info['UAH'] + 0.01*info['exchange_rate']), 2)
             info['USD'] = round(info['USD'] - 0.01, 2)
-        recording_newfile_config(file_name, info)
+        recording_file_config(file_name, info)
     else:
         return f"UNAVAILABLE, AVAILABLE UAH {info['UAH']}"
 
@@ -78,7 +79,7 @@ def sell_all():
         currency_quantity = info['USD']*info['exchange_rate']
         info['USD'] -= info['USD']
         info['UAH'] = round(info['UAH'] + currency_quantity, 2)
-        recording_newfile_config(file_name, info)
+        recording_file_config(file_name, info)
     else:
         return f"UNAVAILABLE, AVAILABLE  USD {info['USD']}"
 
@@ -89,12 +90,12 @@ def next():
     info = open_file_config(file_name)
     info['exchange_rate'] = round(uniform(info['exchange_rate']-info['delta'],
                                           info['exchange_rate']+info['delta']), 2)
-    recording_newfile_config(file_name, info)
+    recording_file_config(file_name, info)
 
 def restart():
     """Скидання всіх налаштувань, створення нового файлу з початковими конфігураціями"""
     open_file_config('config')
-    recording_newfile_config(file_name, something=open_file_config('config'))
+    recording_file_config(file_name, something=open_file_config('config'))
 
 
 
