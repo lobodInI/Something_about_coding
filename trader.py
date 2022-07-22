@@ -43,8 +43,8 @@ def buy_xxx(usd_amount, info):
     """Купівля валюти(USD) вказаної кількості"""
     recount = round(usd_amount * info['exchange_rate'], 2)
     if (info['UAH'] - recount) > 0:
-        info['UAH'] = round((info['UAH'] - recount), 2)
-        info['USD'] = round((info['USD'] + usd_amount), 2)
+        info['UAH'] = round(info['UAH'] - recount, 2)
+        info['USD'] = round(info['USD'] + usd_amount, 2)
         recording_tmp_config(info)
     else:
         print(f"UNAVAILABLE, REQUIRED BALANCE UAH {recount}, AVAILABLE {info['UAH']}")
@@ -53,9 +53,8 @@ def buy_xxx(usd_amount, info):
 def sell_xxx(usd_amount, info):
     """Продаж валюти(USD) вказаної кількості"""
     if usd_amount <= info['USD']:
-        recount = usd_amount * info['exchange_rate']
-        info['UAH'] = round((info['UAH'] + recount), 2)
-        info['USD'] = round((info['USD'] - usd_amount), 2)
+        info['UAH'] = round(info['UAH'] + usd_amount * info['exchange_rate'], 2)
+        info['USD'] = round(info['USD'] - usd_amount, 2)
         recording_tmp_config(info)
     else:
         print(f"UNAVAILABLE, REQUIRED BALANCE USD {usd_amount}, AVAILABLE {info['USD']}")
@@ -68,17 +67,16 @@ def buy_all(info):
         info['USD'] = round(info['USD'] + currency_quantity, 2)
         info['UAH'] = round(info['UAH'] - currency_quantity * info['exchange_rate'], 2)
         if info['UAH'] < 0:
-            info['UAH'] = round((info['UAH'] + 0.01 * info['exchange_rate']), 2)
-            info['USD'] = round(info['USD'] - 0.01, 2)
+            info['UAH'] = info['UAH'] + 0.01 * info['exchange_rate']
+            info['USD'] = info['USD'] - 0.01
         recording_tmp_config(info)
 
 
 def sell_all(info):
     """Продаж всієї валюти (USD) і конвертація у валюту (UAH)"""
     if info['USD'] > 0:
-        currency_quantity = info['USD'] * info['exchange_rate']
+        info['UAH'] = round(info['UAH'] + info['USD'] * info['exchange_rate'], 2)
         info['USD'] -= info['USD']
-        info['UAH'] = round(info['UAH'] + currency_quantity, 2)
         recording_tmp_config(info)
 
 
