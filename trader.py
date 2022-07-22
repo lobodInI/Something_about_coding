@@ -67,7 +67,7 @@ def buy_all(info):
         info['USD'] = round(info['USD'] + currency_quantity, 2)
         info['UAH'] = round(info['UAH'] - currency_quantity * info['exchange_rate'], 2)
         if info['UAH'] < 0:
-            info['UAH'] = info['UAH'] + 0.01 * info['exchange_rate']
+            info['UAH'] = round(info['UAH'] + 0.01 * info['exchange_rate'], 2)
             info['USD'] = info['USD'] - 0.01
         recording_tmp_config(info)
 
